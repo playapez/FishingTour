@@ -58,7 +58,7 @@ controlUsuario.crearUsuario= async(req,res)=>{ //se crea nuevo usuario pero se m
        }
        const match = await bcrypt.compare(contrasena, usuario1.contrasena)
        if(match){
-           const token=jwt.sign({_id: usuario1._id}, 'Secreta')
+           const token=jwt.sign({_id: usuario1._id}, 'ASD123')
    
            res.json({
    
@@ -77,5 +77,15 @@ controlUsuario.crearUsuario= async(req,res)=>{ //se crea nuevo usuario pero se m
    
        }
    }
+   controlUsuario.listarusuario=async(req,res)=>{
+    const respuesta = await Usuario.find()
+    res.json(respuesta)
+
+   }
+   controlUsuario.BuscarUsuario=async(req,res)=>{
+    const correo = req.params.correo
+    const respuesta = await Usuario.findOne({correo:{ $regex:".*"+correo+ ".*"}})
+    res.json(respuesta)
+}
 
    module.exports=controlUsuario

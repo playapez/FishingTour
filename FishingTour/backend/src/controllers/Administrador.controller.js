@@ -54,7 +54,7 @@ controlAdministrador.login=async(req,res)=> {
     }
     const match = await bcrypt.compare(contrasena, admin1.contrasena)
     if(match){
-        const token=jwt.sign({_id: admin1._id}, 'Secreta')
+        const token=jwt.sign({_id: admin1._id}, '123ASD')
 
         res.json({
 
@@ -72,10 +72,5 @@ controlAdministrador.login=async(req,res)=> {
 
     }
 }
-//controlAdministrador.listar=async(req,res)=>{
-  //  const respuesta = await UsuarioControl.find()
-    //res.json(respuesta)
-//}
-
 
 module.exports=controlAdministrador

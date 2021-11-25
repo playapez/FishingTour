@@ -19,6 +19,7 @@ app.use(cors())
 app.use('/Administrador',require('./src/routers/Administrador.route'))
 app.use('/Reserva',require('./src/routers/Reserva.route'))
 app.use('/Usuario', require('./src/routers/Usuario.route'))
+app.use('/PQR',require('./src/routers/PQR.route'))
 //configuracion del puerto
 
 app.set('puerto', process.env.PORT || 3000);
