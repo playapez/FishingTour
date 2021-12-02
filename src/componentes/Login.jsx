@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,9 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
-
+import Axios from 'axios'
+import Swal from 'sweetalert2'
 
 function Copyright(props) {
   return (
@@ -32,15 +31,38 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const [correo,setCorreo]=useState('')
+  const [contrasena,setContrasena]=useState('')
+  
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    //const data = new FormData(event.currentTarget);
+    const usuario={correo,contrasena}
+    const respuesta= await Axios.post('/Usuario/login',usuario)
+    const mensaje=respuesta.data.mensaje
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+    console.log(respuesta);
+    if(mensaje!=='Bienvenido')
+        {
+            Swal.fire({
+            icon: 'error',
+            title: mensaje,
+            showConfirmButton: false,
+            timer: 1500
+              })
+        }
+
+        else{
+            const token= respuesta.data.token
+            const nombres= respuesta.data.Nombres
+            const idusuario=respuesta.data.id
+            sessionStorage.setItem('token',token)
+            sessionStorage.setItem('nombres',nombres)
+            sessionStorage.setItem('idusuario',idusuario)
+            window.location.href='/Inicio'
+        }
+  }
+
 
   return (
       <div className="container">
@@ -83,21 +105,24 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
+                id="correo"
                 label="Correo Electronico"
-                name="email"
-                autoComplete="email"
+                name="correo"
+                autoComplete="current-email"
                 autoFocus
+                onChange={(e)=>setCorreo(e.target.value)}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                name="contrasena"
                 label="Contraseña"
                 type="password"
-                id="password"
+                id="contrasena"
                 autoComplete="current-password"
+                onChange={(e)=>setContrasena(e.target.value)}
+              
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -114,7 +139,7 @@ export default function SignInSide() {
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    Olvidsate tu contraseña ?
+                    Olvidaste tu contraseña ?
                   </Link>
                 </Grid>
                 <Grid item>

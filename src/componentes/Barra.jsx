@@ -1,7 +1,18 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import {Navbar,Container,Offcanvas,Nav,NavDropdown,Form,FormControl,Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function Barra (){
+    const [menu,setMenu]=useState(false)
+  useEffect(() => {
+    if(sessionStorage.getItem('token')){
+      setMenu(true)
+    }
+  }, [])
+  const salir=()=>{
+    sessionStorage.clear()
+    window.location.href="/Login"
+  }
     return (
         <div className="container">
             <Navbar bg="dark" variant="dark" expand={false}>
@@ -14,6 +25,11 @@ export default function Barra (){
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Navbar.Brand href="#"></Navbar.Brand>
+                {
+                    menu?
+                    <div>
+                <Navbar.Brand >Bienvenido {sessionStorage.getItem('nombres')}</Navbar.Brand>
+                 <Navbar.Brand href="/Inicio"></Navbar.Brand>
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Navbar.Brand href="#"></Navbar.Brand>
@@ -21,8 +37,12 @@ export default function Barra (){
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Navbar.Brand href="#"></Navbar.Brand>
-                <Navbar.Brand href="#"></Navbar.Brand>
+                <Link className="navbar-brand" onClick={()=>salir()} to="/Login"> <i className='fas fa-user-times'></i>Salir</Link>
+                </div> :
+                <div>
                 <Navbar.Brand href="/Login">Login</Navbar.Brand>
+                </div>
+                }
                 <Navbar.Toggle aria-controls="offcanvasNavbar" />
                 <Navbar.Offcanvas
                 id="offcanvasNavbar"
