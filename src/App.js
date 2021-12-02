@@ -7,6 +7,7 @@ import Registro from './componentes/Registro';
 import Login from './componentes/Login';
 import Reservas from './componentes/Reservas';
 import PQR from './componentes/PQR';
+import Loginadm from './componentes/Loginadm'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route path='/Login' exact component={Login}/>
       <Route path='/Reservas' exact component={Reservas}/>
       <Route path='/PQR' exact component={PQR}/>
+      <Route path='/Loginadm' exact component={Loginadm}/>
     </Router>
   );
 }
